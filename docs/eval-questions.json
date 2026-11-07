@@ -1,0 +1,26 @@
+[
+  {
+    "id": "official-feature",
+    "question": "Tavily Search API 是否支持把搜索范围限制在指定网站？请给出官方来源。"
+  },
+  {
+    "id": "current-price",
+    "question": "Tavily 当前免费方案每月提供多少 API credits？需要信用卡吗？"
+  },
+  {
+    "id": "framework-status",
+    "question": "LangChain 的 Open Deep Research 仓库现在是否已经归档？归档后还能否查看代码？"
+  },
+  {
+    "id": "model-feature",
+    "question": "Nebius Token Factory 是否提供 JSON 格式的结构化输出？有哪些适用条件？"
+  },
+  {
+    "id": "compare-tools",
+    "question": "一个小型 Python 团队选择 Tavily Search 和普通网页抓取时，获取实时、带来源的研究资料各有什么实际限制？"
+  },
+  {
+    "id": "insufficient",
+    "question": "不存在的产品 BlueGlass HyperMemo 9.7 是否在 2026 年 11 月 8 日正式发布了 API？请核对官方来源。"
+  }
+]

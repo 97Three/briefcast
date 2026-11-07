@@ -1,0 +1,39 @@
+{
+  "question": "示例产品是否支持数据导出？",
+  "answer": "根据本次检索，示例产品支持 CSV 导出。[S1] 但最新版本的批量导出限制仍需核实。",
+  "claims": [
+    {
+      "text": "示例产品支持 CSV 导出。",
+      "status": "supported",
+      "citations": [{"source_id": "S1", "quote": "支持 CSV 格式导出"}],
+      "note": "示例文档直接说明了该功能。"
+    },
+    {
+      "text": "示例产品支持无限量批量导出。",
+      "status": "insufficient",
+      "citations": [],
+      "note": "没有找到可核查的依据。"
+    }
+  ],
+  "sources": [
+    {
+      "id": "S1",
+      "title": "示例产品文档（虚构数据）",
+      "url": "https://example.org/docs/export",
+      "query": "示例产品 CSV 导出 官方文档",
+      "snippet": "支持 CSV 格式导出。",
+      "retrieved_at": "2026-11-08T00:00:00Z",
+      "published_at": null
+    }
+  ],
+  "gaps": ["批量导出数量限制尚未核实"],
+  "trace": [
+    {"stage": "plan", "detail": "Prepared 2 searches", "queries": ["示例产品 CSV 导出 官方文档", "示例产品 导出限制"]},
+    {"stage": "search", "detail": "Round 1: 1 unique source; 0 failed queries", "queries": ["示例产品 CSV 导出 官方文档", "示例产品 导出限制"]},
+    {"stage": "assess", "detail": "1 evidence gap", "queries": []},
+    {"stage": "draft", "detail": "Drafted 2 claims", "queries": []},
+    {"stage": "verify", "detail": "1 supported, 0 disputed, 1 insufficient", "queries": []}
+  ],
+  "search_rounds": 1,
+  "status": "partial"
+}
