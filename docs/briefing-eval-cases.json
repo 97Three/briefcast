@@ -1,0 +1,30 @@
+[
+  {
+    "id": "company_official",
+    "entity": "Microsoft",
+    "entity_type": "company",
+    "official_domain": "microsoft.com",
+    "meeting_goal": "讨论企业 AI 产品合作",
+    "language": "zh",
+    "meeting_days_ahead": 2
+  },
+  {
+    "id": "person_disambiguated",
+    "entity": "Satya Nadella",
+    "entity_type": "person",
+    "organization": "Microsoft",
+    "official_domain": "microsoft.com",
+    "meeting_goal": "讨论企业 AI 战略",
+    "language": "zh",
+    "meeting_days_ahead": 2
+  },
+  {
+    "id": "sparse_recent_news",
+    "entity": "Tavily",
+    "entity_type": "company",
+    "official_domain": "tavily.com",
+    "meeting_goal": "讨论搜索 API 集成",
+    "language": "zh",
+    "meeting_days_ahead": 2
+  }
+]
