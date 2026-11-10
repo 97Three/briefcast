@@ -1,0 +1,453 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    /* 防止任何装饰元素造成横向滚动 */
+    overflow-x: hidden;
+    font-size: 16px;
+  }
+
+  body {
+    @apply bg-dark-bg font-sans text-text-primary antialiased;
+    overflow-x: hidden;
+    line-height: 1.55;
+  }
+
+  button,
+  input,
+  select {
+    font: inherit;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgba(85, 195, 231, 0.7);
+    outline-offset: 3px;
+  }
+
+  /* 数字与日期统一使用等宽字体，信息密度更整齐 */
+  time,
+  .font-mono {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* 选中态与主题一致 */
+  ::selection {
+    background: rgba(14, 165, 233, 0.28);
+    color: #f8fafc;
+  }
+}
+
+/* ---------- 装饰：网格背景 ---------- */
+.grid-bg {
+  background-image:
+    radial-gradient(ellipse 60% 34% at 7% 8%, rgba(48, 116, 155, 0.13), transparent 75%),
+    radial-gradient(ellipse 42% 42% at 94% 38%, rgba(90, 72, 143, 0.09), transparent 78%),
+    linear-gradient(rgba(125, 167, 190, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125, 167, 190, 0.035) 1px, transparent 1px);
+  background-size: auto, auto, 32px 32px, 32px 32px;
+  background-position: center;
+}
+
+/* Ambient light stays behind the interface, so motion never competes with text. */
+.ambient-field {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ambient-orb {
+  position: absolute;
+  display: block;
+  width: min(55vw, 760px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  filter: blur(72px);
+  opacity: 0.42;
+  will-change: transform;
+  animation: ambientDrift 18s ease-in-out infinite alternate;
+}
+
+.ambient-orb--left {
+  top: -24%;
+  left: -15%;
+  background: radial-gradient(circle, rgba(44, 151, 199, 0.27), transparent 65%);
+}
+
+.ambient-orb--right {
+  top: 14%;
+  right: -22%;
+  background: radial-gradient(circle, rgba(127, 93, 207, 0.23), transparent 65%);
+  animation-duration: 22s;
+  animation-delay: -9s;
+}
+
+.ambient-orb--lower {
+  bottom: -34%;
+  left: 24%;
+  background: radial-gradient(circle, rgba(30, 148, 170, 0.18), transparent 65%);
+  animation-duration: 25s;
+  animation-delay: -15s;
+}
+
+.ambient-scan {
+  position: absolute;
+  top: -8%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 5%, rgba(85, 195, 231, 0.16) 35%, rgba(85, 195, 231, 0.34) 50%, transparent 95%);
+  box-shadow: 0 0 22px rgba(85, 195, 231, 0.16);
+  animation: scanTraverse 13s linear infinite;
+}
+
+@keyframes ambientDrift {
+  from { transform: translate3d(-4%, -3%, 0) scale(0.94); }
+  to { transform: translate3d(7%, 6%, 0) scale(1.08); }
+}
+
+@keyframes scanTraverse {
+  from { transform: translateY(0); opacity: 0; }
+  12%, 80% { opacity: 1; }
+  to { transform: translateY(115vh); opacity: 0; }
+}
+
+.hero-accent {
+  background: linear-gradient(110deg, #e7f9ff 8%, #69d8f3 35%, #b7a1f5 58%, #e7f9ff 82%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: headlineShimmer 8s ease-in-out infinite;
+}
+
+@keyframes headlineShimmer {
+  0%, 100% { background-position: 100% center; }
+  50% { background-position: 0 center; }
+}
+
+.signal-dot {
+  box-shadow: 0 0 0 0 rgba(85, 195, 231, 0.4);
+  animation: signalPulse 2.8s ease-out infinite;
+}
+
+@keyframes signalPulse {
+  0% { box-shadow: 0 0 0 0 rgba(85, 195, 231, 0.36); }
+  68%, 100% { box-shadow: 0 0 0 8px rgba(85, 195, 231, 0); }
+}
+
+.tech-panel {
+  position: relative;
+  isolation: isolate;
+}
+
+.tech-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(145deg, rgba(85, 195, 231, 0.42), transparent 32%, transparent 70%, rgba(169, 149, 237, 0.28));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.45;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.tech-panel:hover::before,
+.tech-panel:focus-within::before {
+  opacity: 0.9;
+}
+
+.interactive-card {
+  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.interactive-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(85, 195, 231, 0.28);
+  box-shadow: 0 18px 42px rgba(2, 8, 17, 0.28), 0 0 22px rgba(85, 195, 231, 0.06);
+}
+
+.reveal-item {
+  animation: itemReveal 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes itemReveal {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.button-energy {
+  position: relative;
+  isolation: isolate;
+}
+
+.button-energy::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(110deg, transparent 20%, rgba(255, 255, 255, 0.34) 48%, transparent 75%);
+  pointer-events: none;
+  transform: translateX(-130%);
+  transition: transform 0.65s ease;
+}
+
+.button-energy:hover::before {
+  transform: translateX(130%);
+}
+
+.button-energy > span {
+  position: relative;
+  z-index: 1;
+}
+
+.progress-flow {
+  background-size: 200% 100%;
+  animation: progressFlow 2.4s linear infinite;
+}
+
+@keyframes progressFlow {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
+}
+
+/* ---------- 指针光斑：跟随指针的低频光，只在精确指针设备启用 ---------- */
+.spotlight-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--spot-on, 0);
+  background: radial-gradient(
+    340px circle at var(--spot-x, 50%) var(--spot-y, 0%),
+    rgba(85, 195, 231, 0.1),
+    rgba(85, 195, 231, 0.035) 45%,
+    transparent 72%
+  );
+  transition: opacity 0.5s ease;
+}
+
+/* ---------- 胶片颗粒：让大面积渐变不呈现塑料感 ---------- */
+.grain-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+/* ---------- 滚动入场：只改 opacity / transform ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition-delay: calc(var(--reveal-i, 0) * 55ms);
+}
+
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- 当前阶段的雷达扫描 ---------- */
+.radar-ring::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: 9999px;
+  background: conic-gradient(from 0deg, rgba(85, 195, 231, 0.8), transparent 38%);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+  animation: radarSweep 1.7s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes radarSweep {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- 事件流行入场 ---------- */
+.log-line {
+  animation: logIn 0.28s ease-out both;
+}
+
+@keyframes logIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- 页面转场（支持 View Transitions 时生效） ---------- */
+::view-transition-old(root) {
+  animation: viewOut 0.2s ease both;
+}
+
+::view-transition-new(root) {
+  animation: viewIn 0.26s ease both;
+}
+
+@keyframes viewOut {
+  to { opacity: 0; }
+}
+
+@keyframes viewIn {
+  from { opacity: 0; }
+}
+
+/* ---------- 入场：只用 opacity / transform ---------- */
+.animate-enter {
+  animation: fadeIn 0.35s ease-out both, slideUp 0.35s ease-out both;
+}
+
+/* ---------- 卡片质感 ---------- */
+.card-glow {
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card-glow:hover {
+  border-color: rgba(85, 195, 231, 0.4);
+  box-shadow: 0 14px 42px rgba(2, 8, 17, 0.22), 0 0 28px rgba(85, 195, 231, 0.07);
+}
+
+/* ---------- 滚动条 ---------- */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0e1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(14, 165, 233, 0.22);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(14, 165, 233, 0.4);
+}
+
+/* ---------- 无障碍：尊重「减少动态效果」 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+}
+
+/* ---------- 移动端：悬停特效降级 ---------- */
+@media (max-width: 767px) {
+  .ambient-orb--lower,
+  .ambient-scan {
+    display: none;
+  }
+
+  .ambient-orb {
+    width: 85vw;
+    filter: blur(54px);
+    opacity: 0.3;
+  }
+
+  .interactive-card:hover {
+    transform: none;
+  }
+
+  .card-glow:hover {
+    box-shadow: none;
+  }
+
+  /* 触屏没有悬停语义，光斑与颗粒都降级 */
+  .spotlight-layer {
+    display: none;
+  }
+
+  .grain-layer {
+    opacity: 0.025;
+  }
+
+  .reveal {
+    transition-delay: calc(var(--reveal-i, 0) * 30ms);
+  }
+}
+
+/* 触屏设备不启用指针光斑 */
+@media (hover: none) {
+  .spotlight-layer {
+    display: none;
+  }
+}
+
+/* ---------- 打印：一页简报 ---------- */
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm 11mm;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #111827 !important;
+    overflow: visible !important;
+  }
+
+  /* 屏幕专用装饰与交互一律不打印 */
+  .no-print,
+  header.sticky,
+  body > #app > div > footer {
+    display: none !important;
+  }
+
+  .grid-bg {
+    background-image: none !important;
+  }
+
+  /* 动画被禁用时，也绝不能把内容留在 opacity:0 的状态 */
+  * {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  .print-sheet {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+  }
+
+  /* 证据条目不要被切到两页中间 */
+  li,
+  section,
+  article > header {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  h1,
+  h2 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
