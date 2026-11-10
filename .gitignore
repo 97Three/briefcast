@@ -5,3 +5,12 @@ __pycache__/
 .pytest_cache/
 *.pyc
 runs/
+
+# local overrides
+.env.local
+.env.*.local
+.DS_Store
+.idea/
+.vscode/
+coverage/
+*.log
