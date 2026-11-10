@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.svg" alt="Briefcast — evidence-first pre-meeting intelligence" width="100%">
+  <img src="assets/banner-v2.svg" alt="Briefcast — evidence-first pre-meeting intelligence" width="100%">
 </p>
 
 <p align="center">
@@ -30,7 +30,7 @@ Briefcast makes that process repeatable. Give it a subject, a meeting time and a
 | **03** | **What to ask** | Up to three questions, each bound to a specific development; one click returns to the evidence |
 
 <p align="center">
-  <img src="docs/frontend-screens/02-briefing-demo.png" alt="Briefcast one-page meeting brief" width="100%">
+  <img src="docs/frontend-screens/en/02-briefing-demo.png" alt="Briefcast one-page meeting brief" width="100%">
 </p>
 
 ## The evidence model
@@ -49,43 +49,43 @@ This is not a summarizer with a source list. It is a pipeline that refuses to pr
 
 Subject and meeting time are all that is required. Company/person type, organization, domain and attendee stay collapsed until you need them.
 
-<p align="center"><img src="docs/frontend-screens/01-input.png" alt="Input page" width="100%"></p>
+<p align="center"><img src="docs/frontend-screens/en/01-input.png" alt="Input page" width="100%"></p>
 
 ### 02 — Live research progress
 
 Progress is not a decorative animation. Six stages (`plan → search → assess → draft → verify → compose`) come from real SSE events pushed by the backend. The live event stream shows the actual elapsed time and source counts for each stage.
 
-<p align="center"><img src="docs/frontend-screens/09-progress-live-events.png" alt="Research progress and live event stream" width="100%"></p>
+<p align="center"><img src="docs/frontend-screens/en/09-progress-live-events.png" alt="Research progress and live event stream" width="100%"></p>
 
 ### 03 — Source drawer
 
 Click any `[S1]` citation to open the full source: original quote, title, publication date, source type, retrieval time, search query, search summary (explicitly marked **not a quote**), and the original URL. Date labels are clickable too — they open the sentence that supports the date.
 
-<p align="center"><img src="docs/frontend-screens/03-source-drawer.png" alt="Source drawer" width="100%"></p>
+<p align="center"><img src="docs/frontend-screens/en/03-source-drawer.png" alt="Source drawer" width="100%"></p>
 
 ### 04 — A4 print layout
 
 Printing is not a squeezed webpage. It is a separate newspaper-style layout: developments on the left, questions and sources on the right, with complete URLs for offline reading and meeting notes.
 
-<p align="center"><img src="docs/frontend-screens/04-print-preview.png" alt="A4 print preview" width="100%"></p>
+<p align="center"><img src="docs/frontend-screens/en/04-print-preview.png" alt="A4 print preview" width="100%"></p>
 
 ### 05 — Command palette and keyboard flow
 
 `⌘K` / `Ctrl K` opens the command palette: jump between views, copy the brief, open print preview, switch demo state or change the interface language. On the result page, `J` / `K` move between evidence, `Enter` opens the current source, and `Esc` closes any overlay.
 
-<p align="center"><img src="docs/frontend-screens/10-command-palette.png" alt="Command palette" width="100%"></p>
+<p align="center"><img src="docs/frontend-screens/en/10-command-palette.png" alt="Command palette" width="100%"></p>
 
 ### 06 — Bilingual by design
 
 Interface, demo data, source notes, copied text and the print layout all support Chinese / English. The choice is stored locally and becomes the default language for new briefs.
 
-<p align="center"><img src="docs/frontend-screens/13-english-ui.png" alt="English interface" width="100%"></p>
+<p align="center"><img src="docs/frontend-screens/en/13-english-ui.png" alt="English interface" width="100%"></p>
 
 ### 07 — Mobile
 
 At phone width the timeline becomes a single column, the reading rail and hover effects turn off, and animations degrade gracefully without losing information density.
 
-<p align="center"><img src="docs/frontend-screens/08-mobile.png" alt="Mobile layout" width="56%"></p>
+<p align="center"><img src="docs/frontend-screens/en/08-mobile.png" alt="Mobile layout" width="56%"></p>
 
 ### 08 — Edge states
 
@@ -96,11 +96,11 @@ At phone width the timeline becomes a single column, the reading rail and hover 
 | `insufficient_evidence` | Says there is no verifiable recent activity; **does not fill the page** |
 | stream interrupted / `error` | Explains the interruption and offers retry without losing completed work |
 
-<p align="center"><img src="docs/frontend-screens/06-insufficient-state.png" alt="Insufficient evidence state" width="100%"></p>
+<p align="center"><img src="docs/frontend-screens/en/06-insufficient-state.png" alt="Insufficient evidence state" width="100%"></p>
 
 ## Architecture
 
-<p align="center"><img src="assets/architecture.svg" alt="Briefcast architecture: Vue client, FastAPI SSE, LangGraph pipeline, DeepSeek and Tavily" width="100%"></p>
+<p align="center"><img src="assets/architecture-v2.svg" alt="Briefcast architecture: Vue client, FastAPI SSE, LangGraph pipeline, DeepSeek and Tavily" width="100%"></p>
 
 - The time window is anchored to the **meeting time**, not the calendar month; future dates and results without a parsable publication date are excluded.
 - The pipeline allows at most two search rounds and twelve unique sources.

@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.svg" alt="Briefcast — 证据优先的会前研究" width="100%">
+  <img src="assets/banner-v2.svg" alt="Briefcast — 证据优先的会前研究" width="100%">
 </p>
 
 <p align="center">
@@ -30,7 +30,7 @@ Briefcast 把这件事变成一个可重复的流程。给出研究对象、会�
 | **03** | **会上值得问什么** | 最多三个问题，每个绑定到具体动态；点一下就能回到对应证据 |
 
 <p align="center">
-  <img src="docs/frontend-screens/02-briefing-demo.png" alt="Briefcast 一页式会前简报" width="100%">
+  <img src="docs/frontend-screens/en/02-briefing-demo.png" alt="Briefcast 一页式会前简报" width="100%">
 </p>
 
 ## 它不是摘要器，而是证据流水线
@@ -47,43 +47,43 @@ Briefcast 把这件事变成一个可重复的流程。给出研究对象、会�
 
 只需要研究对象和会议时间。公司/人物类型、所属机构、官网域名、参会人都默认折叠，不打扰主路径。
 
-<p align="center"><img src="docs/frontend-screens/01-input.png" alt="输入页" width="100%"></p>
+<p align="center"><img src="docs/frontend-screens/en/01-input.png" alt="输入页" width="100%"></p>
 
 ### 02 — 实时研究进度
 
 进度不是装饰动画。`plan → search → assess → draft → verify → compose` 六个阶段来自后端真实推送的 SSE 事件；右下角的实时事件流显示每个阶段的真实耗时与来源数量。
 
-<p align="center"><img src="docs/frontend-screens/09-progress-live-events.png" alt="研究进度与实时事件流" width="100%"></p>
+<p align="center"><img src="docs/frontend-screens/en/09-progress-live-events.png" alt="研究进度与实时事件流" width="100%"></p>
 
 ### 03 — 来源侧栏
 
 点击任意 `[S1]` 引文，右侧展开完整来源：原文摘录、标题、发布日期、来源类型、检索时间、检索式、搜索摘要（明确标注**非原文引述**），以及原网页链接。日期标签也可以点开——展开的是支持该日期的原句。
 
-<p align="center"><img src="docs/frontend-screens/03-source-drawer.png" alt="来源详情侧栏" width="100%"></p>
+<p align="center"><img src="docs/frontend-screens/en/03-source-drawer.png" alt="来源详情侧栏" width="100%"></p>
 
 ### 04 — 一页 A4 打印版
 
 打印不是把网页压扁，而是一份重新排版的报纸式版面：左栏动态、右栏问题与来源，来源带完整 URL，方便离线阅读与会议记录归档。
 
-<p align="center"><img src="docs/frontend-screens/04-print-preview.png" alt="A4 打印预览" width="100%"></p>
+<p align="center"><img src="docs/frontend-screens/en/04-print-preview.png" alt="A4 打印预览" width="100%"></p>
 
 ### 05 — 命令面板与键盘操作
 
 `⌘K` / `Ctrl K` 打开命令面板：跳转、复制简报、打印预览、切换演示态与界面语言。结果页用 `J` / `K` 在证据之间移动，`Enter` 打开当前来源，`Esc` 关闭任何浮层。
 
-<p align="center"><img src="docs/frontend-screens/10-command-palette.png" alt="命令面板" width="100%"></p>
+<p align="center"><img src="docs/frontend-screens/en/10-command-palette.png" alt="命令面板" width="100%"></p>
 
 ### 06 — 中英双语
 
 界面、演示数据、来源说明、复制文本与打印版均支持中文 / English。语言选择会保存在本地，并作为新建简报的默认正文语言。
 
-<p align="center"><img src="docs/frontend-screens/13-english-ui.png" alt="英文界面" width="100%"></p>
+<p align="center"><img src="docs/frontend-screens/en/13-english-ui.png" alt="英文界面" width="100%"></p>
 
 ### 07 — 移动端
 
 手机宽度下，时间轴改为单列，章节轨与悬停特效自动关闭，动画降级，信息密度保持一致。
 
-<p align="center"><img src="docs/frontend-screens/08-mobile.png" alt="移动端布局" width="56%"></p>
+<p align="center"><img src="docs/frontend-screens/en/08-mobile.png" alt="移动端布局" width="56%"></p>
 
 ### 08 — 边界状态
 
@@ -94,11 +94,11 @@ Briefcast 把这件事变成一个可重复的流程。给出研究对象、会�
 | `insufficient_evidence` | 明确说明没有可核实的近期动态；**不用未核实内容填充版面** |
 | 流中断 / `error` | 说明中断原因并允许重试，不丢失已完成信息 |
 
-<p align="center"><img src="docs/frontend-screens/06-insufficient-state.png" alt="证据不足状态" width="100%"></p>
+<p align="center"><img src="docs/frontend-screens/en/06-insufficient-state.png" alt="证据不足状态" width="100%"></p>
 
 ## 架构
 
-<p align="center"><img src="assets/architecture.svg" alt="Briefcast 架构：Vue 客户端、FastAPI SSE、LangGraph 流水线、DeepSeek 与 Tavily" width="100%"></p>
+<p align="center"><img src="assets/architecture-v2.svg" alt="Briefcast 架构：Vue 客户端、FastAPI SSE、LangGraph 流水线、DeepSeek 与 Tavily" width="100%"></p>
 
 - 时间窗口由**会议时间**决定，不是自然月；未来日期与无法解析发布日期的结果会被排除。
 - 全流程最多两轮检索、十二个唯一来源，避免无界扩张。

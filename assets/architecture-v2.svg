@@ -1,0 +1,194 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="620" viewBox="0 0 1100 620" role="img" aria-label="Briefcast architecture: Vue 3 client, FastAPI SSE, LangGraph research graph with six stages, DeepSeek and Tavily, one-page brief">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1523"/>
+      <stop offset="55%" stop-color="#09111d"/>
+      <stop offset="100%" stop-color="#0c1726"/>
+    </linearGradient>
+
+    <radialGradient id="glowCyan" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#55c3e7" stop-opacity="0.2"/>
+      <stop offset="60%" stop-color="#55c3e7" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#55c3e7" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="glowPurple" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#a995ed" stop-opacity="0.16"/>
+      <stop offset="60%" stop-color="#a995ed" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#a995ed" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="flow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#55c3e7" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#55c3e7" stop-opacity="0.95"/>
+    </linearGradient>
+
+    <linearGradient id="flowPurple" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#a995ed" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#a995ed" stop-opacity="0.35"/>
+    </linearGradient>
+
+    <linearGradient id="colGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#55c3e7" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#a995ed" stop-opacity="0.5"/>
+    </linearGradient>
+
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M24 0H0V24" fill="none" stroke="#8ea2b6" stroke-opacity="0.06" stroke-width="1"/>
+    </pattern>
+
+    <marker id="arrowCyan" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#55c3e7"/>
+    </marker>
+    <marker id="arrowPurple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#a995ed"/>
+    </marker>
+  </defs>
+
+  <!-- background -->
+  <rect width="1100" height="620" fill="url(#bg)"/>
+  <rect width="1100" height="620" fill="url(#grid)"/>
+  <ellipse cx="180" cy="120" rx="420" ry="280" fill="url(#glowCyan)"/>
+  <ellipse cx="980" cy="520" rx="380" ry="240" fill="url(#glowPurple)"/>
+  <rect x="0" y="0" width="1100" height="1" fill="#55c3e7" fill-opacity="0.3"/>
+
+  <g font-family="Inter, 'Segoe UI', -apple-system, 'Helvetica Neue', Arial, sans-serif">
+    <!-- header -->
+    <text x="48" y="48" font-size="11.5" letter-spacing="2.6" fill="#8ea2b6">ARCHITECTURE</text>
+    <text x="1052" y="48" text-anchor="end" font-size="11.5" letter-spacing="1.4" fill="#8ea2b6">ONE PAGE OUT</text>
+    <rect x="48" y="60" width="1004" height="1" fill="#ffffff" fill-opacity="0.08"/>
+
+    <!-- ============ Column 1: client ============ -->
+    <rect x="48" y="108" width="230" height="264" rx="14" fill="#121e2d" stroke="#ffffff" stroke-opacity="0.1"/>
+    <rect x="48" y="108" width="230" height="34" rx="14" fill="#1a2a3b" fill-opacity="0.85"/>
+    <rect x="48" y="128" width="230" height="14" fill="#1a2a3b" fill-opacity="0.85"/>
+    <circle cx="70" cy="125" r="4" fill="#55c3e7"/>
+    <text x="84" y="130" font-size="13" font-weight="600" fill="#f5f8fb">Vue 3 client</text>
+
+    <text x="70" y="172" font-size="12" fill="#b4c3d2">fetch + ReadableStream</text>
+    <text x="70" y="193" font-size="11.5" fill="#8ea2b6">parses chunked SSE</text>
+
+    <rect x="70" y="210" width="186" height="1" fill="#ffffff" fill-opacity="0.07"/>
+
+    <text x="70" y="236" font-size="12" fill="#b4c3d2">progress events</text>
+    <text x="70" y="258" font-size="12" fill="#b4c3d2">result / error</text>
+    <text x="70" y="280" font-size="12" fill="#b4c3d2">one-page brief UI</text>
+
+    <rect x="70" y="300" width="186" height="26" rx="7" fill="#0f1a28" stroke="#55c3e7" stroke-opacity="0.22"/>
+    <text x="80" y="317" font-size="11" fill="#55c3e7">J / K · Ctrl K</text>
+    <text x="156" y="317" font-size="11" fill="#8ea2b6">keyboard</text>
+
+    <rect x="70" y="336" width="186" height="24" rx="7" fill="#0f1a28" stroke="#ffffff" stroke-opacity="0.08"/>
+    <text x="80" y="352" font-size="10.5" fill="#8ea2b6">zh / en interface</text>
+
+    <!-- arrow: client -> api -->
+    <line x1="278" y1="236" x2="308" y2="236" stroke="url(#flow)" stroke-width="2" marker-end="url(#arrowCyan)"/>
+    <text x="284" y="222" font-size="10" fill="#8ea2b6">POST</text>
+
+    <!-- ============ Column 2: FastAPI + LangGraph ============ -->
+    <rect x="318" y="108" width="404" height="42" rx="12" fill="#121e2d" stroke="#55c3e7" stroke-opacity="0.3"/>
+    <text x="338" y="127" font-size="13" font-weight="600" fill="#f5f8fb">FastAPI</text>
+    <text x="338" y="142" font-size="11" fill="#8ea2b6">/api/briefing/stream · text/event-stream</text>
+
+    <line x1="520" y1="150" x2="520" y2="166" stroke="url(#colGrad)" stroke-width="2" marker-end="url(#arrowCyan)"/>
+
+    <rect x="318" y="172" width="404" height="200" rx="12" fill="#121e2d" stroke="#a995ed" stroke-opacity="0.26"/>
+    <text x="338" y="194" font-size="12" font-weight="600" fill="#f5f8fb">LangGraph research graph</text>
+    <text x="702" y="194" text-anchor="end" font-size="10.5" fill="#8ea2b6">bounded loop</text>
+
+    <!-- six stages -->
+    <g font-size="11.5">
+      <rect x="338" y="204" width="364" height="24" rx="6" fill="#1a2a3b" stroke="#55c3e7" stroke-opacity="0.35"/>
+      <circle cx="352" cy="216" r="3" fill="#55c3e7"/>
+      <text x="364" y="220" fill="#f5f8fb">plan</text>
+      <text x="690" y="220" text-anchor="end" fill="#8ea2b6">dated queries from meeting_at</text>
+
+      <rect x="338" y="232" width="364" height="24" rx="6" fill="#1a2a3b" fill-opacity="0.75" stroke="#ffffff" stroke-opacity="0.07"/>
+      <circle cx="352" cy="244" r="3" fill="#55c3e7" fill-opacity="0.8"/>
+      <text x="364" y="248" fill="#f5f8fb">search</text>
+      <text x="690" y="248" text-anchor="end" fill="#8ea2b6">Tavily news + full text</text>
+
+      <rect x="338" y="260" width="364" height="24" rx="6" fill="#1a2a3b" fill-opacity="0.75" stroke="#ffffff" stroke-opacity="0.07"/>
+      <circle cx="352" cy="272" r="3" fill="#55c3e7" fill-opacity="0.8"/>
+      <text x="364" y="276" fill="#f5f8fb">assess</text>
+      <text x="690" y="276" text-anchor="end" fill="#8ea2b6">enough dated evidence?</text>
+
+      <rect x="338" y="288" width="364" height="24" rx="6" fill="#1a2a3b" fill-opacity="0.75" stroke="#ffffff" stroke-opacity="0.07"/>
+      <circle cx="352" cy="300" r="3" fill="#a995ed" fill-opacity="0.85"/>
+      <text x="364" y="304" fill="#f5f8fb">draft</text>
+      <text x="690" y="304" text-anchor="end" fill="#8ea2b6">facts need exact quotes</text>
+
+      <rect x="338" y="316" width="364" height="24" rx="6" fill="#1a2a3b" fill-opacity="0.75" stroke="#a995ed" stroke-opacity="0.3"/>
+      <circle cx="352" cy="328" r="3" fill="#a995ed"/>
+      <text x="364" y="332" fill="#f5f8fb">verify</text>
+      <text x="690" y="332" text-anchor="end" fill="#8ea2b6">exact match + semantic check</text>
+
+      <rect x="338" y="344" width="364" height="24" rx="6" fill="#1a2a3b" fill-opacity="0.75" stroke="#a995ed" stroke-opacity="0.3"/>
+      <circle cx="352" cy="356" r="3" fill="#a995ed"/>
+      <text x="364" y="360" fill="#f5f8fb">compose</text>
+      <text x="690" y="360" text-anchor="end" fill="#8ea2b6">questions from accepted facts</text>
+    </g>
+
+    <!-- ============ Column 3: brief ============ -->
+    <rect x="762" y="108" width="290" height="264" rx="14" fill="#121e2d" stroke="#ffffff" stroke-opacity="0.1"/>
+    <rect x="762" y="108" width="290" height="34" rx="14" fill="#1a2a3b" fill-opacity="0.85"/>
+    <rect x="762" y="128" width="290" height="14" fill="#1a2a3b" fill-opacity="0.85"/>
+    <circle cx="784" cy="125" r="4" fill="#10b981"/>
+    <text x="798" y="130" font-size="13" font-weight="600" fill="#f5f8fb">One-page brief</text>
+
+    <g font-size="11.5">
+      <rect x="784" y="160" width="246" height="54" rx="8" fill="#0f1a28" stroke="#55c3e7" stroke-opacity="0.2"/>
+      <text x="796" y="180" fill="#f5f8fb">verified developments</text>
+      <text x="796" y="199" fill="#8ea2b6">date basis + [S1] quote</text>
+
+      <rect x="784" y="222" width="246" height="54" rx="8" fill="#0f1a28" stroke="#a995ed" stroke-opacity="0.24"/>
+      <text x="796" y="242" fill="#f5f8fb">meeting implication</text>
+      <text x="796" y="261" fill="#8ea2b6">explicitly labeled inference</text>
+
+      <rect x="784" y="284" width="246" height="54" rx="8" fill="#0f1a28" stroke="#ffffff" stroke-opacity="0.09"/>
+      <text x="796" y="304" fill="#f5f8fb">questions to ask</text>
+      <text x="796" y="323" fill="#8ea2b6">bound to a development</text>
+    </g>
+
+    <line x1="722" y1="236" x2="752" y2="236" stroke="url(#flowPurple)" stroke-width="2" marker-end="url(#arrowPurple)"/>
+    <text x="714" y="222" text-anchor="end" font-size="10" fill="#8ea2b6">result</text>
+
+    <!-- ============ providers ============ -->
+    <rect x="48" y="404" width="380" height="70" rx="12" fill="#121e2d" stroke="#a995ed" stroke-opacity="0.26"/>
+    <text x="70" y="429" font-size="13" font-weight="600" fill="#f5f8fb">DeepSeek</text>
+    <text x="70" y="450" font-size="11.5" fill="#8ea2b6">plan · draft · semantic verify · compose</text>
+    <text x="408" y="429" text-anchor="end" font-size="10.5" letter-spacing="1.2" fill="#a995ed">MODEL</text>
+
+    <rect x="452" y="404" width="380" height="70" rx="12" fill="#121e2d" stroke="#55c3e7" stroke-opacity="0.28"/>
+    <text x="474" y="429" font-size="13" font-weight="600" fill="#f5f8fb">Tavily</text>
+    <text x="474" y="450" font-size="11.5" fill="#8ea2b6">news search (topic=news) + full-text extraction</text>
+    <text x="812" y="429" text-anchor="end" font-size="10.5" letter-spacing="1.2" fill="#55c3e7">SEARCH</text>
+
+    <path d="M238 404 L336 376" stroke="#a995ed" stroke-opacity="0.45" stroke-width="1.4" stroke-dasharray="4 4"/>
+    <path d="M642 404 L566 376" stroke="#55c3e7" stroke-opacity="0.45" stroke-width="1.4" stroke-dasharray="4 4"/>
+
+    <!-- ============ annotations ============ -->
+    <g font-size="11.5" fill="#b4c3d2">
+      <rect x="48" y="500" width="300" height="30" rx="15" fill="#121e2d" stroke="#ffffff" stroke-opacity="0.08"/>
+      <circle cx="66" cy="515" r="3" fill="#55c3e7"/>
+      <text x="78" y="519">window = meeting_at − 30 days</text>
+
+      <rect x="360" y="500" width="212" height="30" rx="15" fill="#121e2d" stroke="#ffffff" stroke-opacity="0.08"/>
+      <circle cx="378" cy="515" r="3" fill="#a995ed"/>
+      <text x="390" y="519">max 2 search rounds</text>
+
+      <rect x="584" y="500" width="190" height="30" rx="15" fill="#121e2d" stroke="#ffffff" stroke-opacity="0.08"/>
+      <circle cx="602" cy="515" r="3" fill="#10b981"/>
+      <text x="614" y="519">≤ 12 unique sources</text>
+
+      <rect x="786" y="500" width="266" height="30" rx="15" fill="#121e2d" stroke="#f59e0b" stroke-opacity="0.3"/>
+      <circle cx="804" cy="515" r="3" fill="#f59e0b"/>
+      <text x="816" y="519">no dated evidence → insufficient</text>
+    </g>
+
+    <!-- footer -->
+    <rect x="48" y="556" width="1004" height="1" fill="#ffffff" fill-opacity="0.07"/>
+    <text x="48" y="580" font-size="11" fill="#8ea2b6">Every factual claim carries a quote matched against the retrieved article text; search snippets are never treated as quotes.</text>
+    <text x="1052" y="580" text-anchor="end" font-size="11" fill="#8ea2b6">Briefcast</text>
+  </g>
+</svg>
