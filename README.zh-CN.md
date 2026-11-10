@@ -41,6 +41,18 @@ Briefcast 把这件事变成一个可重复的流程。给出研究对象、会�
 - **推断必须标注。** 会议意义单独成块，不混进已核实事实。
 - **允许交白卷。** 证据不足时明确返回 `insufficient_evidence`，不用未核实内容填满版面。
 
+## 技术栈
+
+| 层 | 技术 | 作用 |
+|---|---|---|
+| 界面 | Vue 3.4、TypeScript、Vite 5、Vue Router 4、Tailwind CSS 3 | 单页简报阅读、演示态、A4 打印版式 |
+| 流式通信 | 原生 `fetch()` + `ReadableStream` SSE 解析 | 以 POST 发送 JSON，并实时渲染进度；`EventSource` 只支持 GET |
+| 接口 | Python 3.11、FastAPI、Pydantic v2、Uvicorn | 类型化校验、异步接口、`text/event-stream` 响应 |
+| 智能体编排 | LangGraph 1.x | 显式的六节点状态机，检索循环有上限 |
+| 模型 | DeepSeek `deepseek-flash`（OpenAI 兼容 API） | 查询规划、起草、严格证据审计、问题生成 |
+| 检索 | Tavily news search + 正文抓取 | 获取近期报道与可用于引文核验的正文 |
+| 质量保障 | pytest、httpx、vue-tsc、GitHub Actions | 36 个后端测试、类型检查与生产构建、每次推送自动 CI |
+
 ## 页面导览
 
 ### 01 — 输入
@@ -96,14 +108,62 @@ Briefcast 把这件事变成一个可重复的流程。给出研究对象、会�
 
 <p align="center"><img src="docs/frontend-screens/en/06-insufficient-state.png" alt="证据不足状态" width="100%"></p>
 
-## 架构
+## 架构与实现
 
 <p align="center"><img src="assets/architecture-v2.svg" alt="Briefcast 架构：Vue 客户端、FastAPI SSE、LangGraph 流水线、DeepSeek 与 Tavily" width="100%"></p>
 
-- 时间窗口由**会议时间**决定，不是自然月；未来日期与无法解析发布日期的结果会被排除。
-- 全流程最多两轮检索、十二个唯一来源，避免无界扩张。
-- 模型不会把 URL 或发布日期写进最终结果：来源与日期由后端确定性写入。
-- `verify` 结合精确引文匹配与语义支持二次判定。
+### 请求生命周期
+
+1. Vue 输入页向 `POST /api/briefing/stream` 发送 JSON 请求体。
+2. FastAPI 校验 `meeting_at`（必须带时区），并推导研究窗口：`[meeting_at - 30 天, min(meeting_at, 当前时间)]`。
+3. LangGraph 状态机依次执行 `plan → search → assess → draft → verify → compose`。
+4. 每个节点追加一条 trace；API 把每条 trace 作为 SSE `progress` 事件推送。
+5. 浏览器用 `fetch()` + `ReadableStream` 解析事件流，更新六阶段进度，最后渲染 `result`。
+6. 屏幕阅读、打印预览与复制文本共用同一个结果对象，不会再次调用模型。
+
+### 流水线阶段
+
+| 阶段 | 做什么 | 约束 |
+|---|---|---|
+| `plan` | 基于研究对象、会议目的和时间窗口，最多生成三条针对性新闻查询；提供官网域名时补充一条 `site:` 查询。 | 窗口完全位于未来时直接返回 `insufficient_evidence`，不发起检索。 |
+| `search` | 调用 Tavily news search（`topic=news`、advanced 深度、抓取正文）；规范化 URL 并去重。 | 最多两轮、十二个唯一来源；无日期、超出窗口、无正文的结果会被剔除。 |
+| `assess` | 判断带日期证据是否足够；不足时提出针对性补充查询。 | 达到三个可用带日期来源或两轮上限即停止，循环有界。 |
+| `draft` | 要求模型最多生成四条不同动态：事实、会议含义、精确引文、可选事件日期及日期引文。 | 明确禁止把搜索摘要当作引文。 |
+| `verify` | 逐条核对引文是否存在于正文；校验事件日期、主体身份与 30 天窗口；检测重复；再做一次严格证据审计。 | 无支撑、主体模糊或超出窗口的候选会被剔除；最终最多保留四条已核实动态。 |
+| `compose` | 生成绑定到具体动态 ID 的会议问题，并写入最终状态。 | 没有已核实动态 → `insufficient_evidence`；存在材料缺口 → `partial`；否则 `completed`。 |
+
+### 确定性组装
+
+来源层不允许由模型自由编造：
+
+- URL、标题、发布日期、检索时间与来源类型由后端根据 Tavily 元数据写入。
+- `date_basis` 只会是 `explicit_event_date`（文章明确写出事件日期）或 `source_publication`（以发布日期作为代理）。
+- 搜索摘要单独保存，并明确标注“搜索摘要，非原文引述”。
+- 界面上的数字是检索/拒绝计数，不是可信度评分。
+
+### 前端实现
+
+- Vue 3 Composition API + 模块级 composable，让输入页与结果页共享同一次运行状态。
+- 因为 `EventSource` 只支持 GET，前端手写 SSE 解析：跨 chunk 缓冲行、处理 `progress` / `result` / `error` 事件。
+- `PrintBriefing` / `PaperPreview` 用同一份结果渲染独立的 A4 报纸式版面。
+- 命令面板、证据键盘导航（`J` / `K`）、减少动态效果降级、移动端单列布局均在客户端实现。
+
+### 目录结构
+
+```text
+src/sourcebound/
+  api.py          FastAPI 应用、CORS、SSE 接口
+  briefing.py     六节点 LangGraph 简报流水线
+  providers.py    DeepSeek 与 Tavily 适配器
+  schemas.py      Pydantic 请求/响应模型
+frontend/src/
+  api/client.ts   POST + ReadableStream SSE 解析
+  composables/    共享运行状态、语言、演示模式
+  components/     简报、来源侧栏、打印、进度、命令面板
+  views/          输入页与简报页
+tests/            36 个使用 fake provider 的后端测试
+docs/             契约、评估记录、工程说明
+```
 
 ## 赛题要求对照
 
@@ -119,26 +179,86 @@ Briefcast 把这件事变成一个可重复的流程。给出研究对象、会�
 
 > 赛题原文提醒「AI 生成的摘要常常把没有支撑的信息当作事实」。Briefcast 把这一点当成核心命题：**没有通过核验的动态不会进入简报**，界面上的每个数字都是处理计数，不是可信度评分。
 
-## 快速开始
+## 安装
 
-需要 Python 3.11+ 与 Node.js 18+。
+### 环境要求
+
+- Python 3.11+
+- Node.js 18+（推荐 20 LTS）
+- 真实研究需要 DeepSeek API Key 与 Tavily API Key
+- Windows PowerShell、macOS 或 Linux，下面分别给出命令
+
+### 1. 克隆并配置
 
 ```powershell
-# 1) 后端
+git clone https://github.com/97Three/briefcast.git
+cd briefcast
+Copy-Item .env.example .env      # Windows PowerShell
+```
+
+```bash
+git clone https://github.com/97Three/briefcast.git
+cd briefcast
+cp .env.example .env             # macOS / Linux
+```
+
+| 变量 | 必填 | 默认值 | 用途 |
+|---|---|---|---|
+| `DEEPSEEK_API_KEY` | 是 | — | 规划、起草与核验所需的 DeepSeek 模型调用 |
+| `TAVILY_API_KEY` | 是 | — | Tavily news 检索与正文抓取 |
+| `DEEPSEEK_MODEL` | 否 | `deepseek-flash` | 传给 OpenAI 兼容接口的模型名 |
+| `DEEPSEEK_BASE_URL` | 否 | `https://api.deepseek.com` | API 基础地址 |
+| `FRONTEND_ORIGINS` | 否 | `http://localhost:3000,http://localhost:5173` | CORS 允许来源 |
+| `VITE_API_BASE_URL` | 否 | 空（同源 `/api`） | 仅用于前后端分域部署；严禁写入密钥 |
+
+密钥只写在项目根 `.env`，**不会进入前端代码、浏览器请求或构建产物**。
+
+### 2. 启动后端
+
+Windows：
+
+```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -e ".[dev]"
-Copy-Item .env.example .env      # 填入 DEEPSEEK_API_KEY / TAVILY_API_KEY
 .\.venv\Scripts\python.exe -m uvicorn sourcebound.api:app --reload
 ```
 
-```powershell
-# 2) 前端（另一个终端）
-cd frontend
-npm install
-npm run dev                       # http://localhost:5173
+macOS / Linux：
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e ".[dev]"
+python -m uvicorn sourcebound.api:app --reload
 ```
 
-也可以直接用 `start-dev.bat` / `start-dev.ps1` 一键启动。
+API 默认监听 `http://127.0.0.1:8000`。
+
+### 3. 启动前端
+
+另开一个终端：
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Vite 默认在 `http://localhost:5173` 提供服务，并把 `/api` 代理到 `127.0.0.1:8000`。Windows 下也可以直接用 `start-dev.bat` / `start-dev.ps1` 启动前后端。
+
+### 4. 验证安装
+
+```bash
+curl http://127.0.0.1:8000/api/health
+```
+
+预期返回：
+
+```json
+{"status":"ok","deepseek_configured":true,"tavily_configured":true}
+```
+
+打开页面即可运行真实研究，或使用下面的演示态。演示模式不需要 API Key；未配置密钥时真实研究会返回 HTTP 503。
 
 | 入口 | 内容 |
 | --- | --- |
@@ -147,7 +267,13 @@ npm run dev                       # http://localhost:5173
 | `http://localhost:5173/briefing?demo=completed` | 演示态（`partial` / `insufficient` / `error`） |
 | `http://localhost:5173/briefing?demo=completed&paper=1` | 一页 A4 打印预览 |
 
-密钥只写在项目根 `.env`，**不会进入前端代码、浏览器请求或构建产物**。
+### 常见问题
+
+| 现象 | 处理 |
+|---|---|
+| 真实研究返回 503 | 在 `.env` 中补齐两个 Key，并重启 Uvicorn |
+| 返回 422 | `meeting_at` 必须带时区偏移，例如 `+08:00` |
+| 前端请求不到接口 | 确认后端在 8000 端口，或修改 `frontend/vite.config.ts` 中的 `/api` 代理 |
 
 ## 接口
 
@@ -169,6 +295,19 @@ npm run dev                       # http://localhost:5173
 ```
 
 `meeting_at` 必须带时区偏移，否则返回 422。完整契约见 [前端契约](docs/briefing-frontend-contract.md) 与 [演示样例](docs/briefing-sample.json)。
+
+## 测试
+
+```powershell
+# 后端：36 个测试，使用 fake 模型/检索 provider，不需要 API Key
+.\.venv\Scripts\python.exe -m pytest -q
+
+# 前端：TypeScript 检查 + 生产构建
+cd frontend
+npm run build
+```
+
+GitHub Actions 会在每次 push 与 pull request 时运行上述两个任务。评估记录与代表性简报见 [简报评估](docs/briefing-evaluation.md) 与 [工程说明](docs/engineering-notes.md)。
 
 ## 工程说明与已知局限
 
