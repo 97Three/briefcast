@@ -1,0 +1,60 @@
+{
+  "entity": "示例公司",
+  "entity_type": "company",
+  "organization": null,
+  "attendee": "示例公司产品负责人",
+  "official_domain": "example.org",
+  "meeting_at": "2026-11-12T15:00:00+08:00",
+  "meeting_goal": "讨论产品合作",
+  "language": "zh",
+  "window_start": "2026-10-13T15:00:00+08:00",
+  "window_end": "2026-11-10T15:00:00+08:00",
+  "generated_at": "2026-11-10T15:05:00+08:00",
+  "headline": "示例公司｜会前 30 天简报",
+  "developments": [
+    {
+      "id": "D1",
+      "date": "2026-11-05",
+      "date_basis": "explicit_event_date",
+      "date_evidence": {"source_id": "S1", "quote": "11月5日"},
+      "fact": "示例公司发布了新的企业协作功能。",
+      "meeting_implication": "这可能为双方讨论产品集成提供切入点。",
+      "citations": [{"source_id": "S1", "quote": "发布了新的企业协作功能"}]
+    }
+  ],
+  "questions": [
+    {
+      "question": "新功能目前最需要哪类合作伙伴参与集成？",
+      "reason": "该问题直接对应近期发布的协作功能。",
+      "development_ids": ["D1"]
+    }
+  ],
+  "gaps": [],
+  "sources": [
+    {
+      "id": "S1",
+      "title": "示例公司公告（虚构数据）",
+      "url": "https://example.org/fictional-announcement",
+      "query": "示例公司 新功能 公告",
+      "snippet": "11月5日，示例公司发布了新的企业协作功能。",
+      "published_at": "2026-11-06",
+      "retrieved_at": "2026-11-10T07:00:00Z",
+      "source_type": "official"
+    }
+  ],
+  "trace": [{"stage": "compose", "detail": "Prepared 1 meeting question", "queries": []}],
+  "research_stats": {
+    "search_results_seen": 3,
+    "excluded_undated": 1,
+    "excluded_outside_window": 0,
+    "excluded_invalid": 0,
+    "excluded_duplicate_url": 1,
+    "excluded_no_full_text": 0,
+    "drafts_rejected": 0,
+    "duplicate_developments": 0,
+    "search_rounds": 1,
+    "sources_reviewed": 1,
+    "developments_verified": 1
+  },
+  "status": "completed"
+}
